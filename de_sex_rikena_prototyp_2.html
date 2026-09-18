@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>De Sex Rikena — Prototyp 2</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Inter:wght@400;500;600&display=swap');
+
+:root{
+  --forest:#07110d;
+  --forest2:#0d2118;
+  --emerald:#16845e;
+  --emerald2:#25b77d;
+  --walnut:#2a1811;
+  --walnut2:#3b2418;
+  --cream:#eee8d9;
+  --muted:#a9aa9c;
+  --gold:#c7a968;
+  --line:rgba(199,169,104,.25);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;min-height:100vh;color:var(--cream);
+  font-family:Inter,system-ui,sans-serif;
+  background:
+    radial-gradient(ellipse at 50% 10%,rgba(22,132,94,.22),transparent 45%),
+    linear-gradient(135deg,#050b08 0%,var(--forest) 48%,#160d09 100%);
+}
+body:before{
+  content:"";position:fixed;inset:0;pointer-events:none;opacity:.28;
+  background:
+    radial-gradient(circle at 12% 30%,#194d36 0 1px,transparent 2px),
+    radial-gradient(circle at 80% 65%,#2a6e4f 0 1px,transparent 2px);
+  background-size:150px 150px,210px 210px;
+}
+.wrap{width:min(920px,92%);margin:auto;padding:34px 0 60px}
+.card{
+  position:relative;overflow:hidden;border:1px solid var(--line);
+  border-radius:24px;background:linear-gradient(145deg,rgba(14,31,23,.96),rgba(35,20,13,.96));
+  box-shadow:0 30px 100px rgba(0,0,0,.55);
+}
+.card:after{
+  content:"";position:absolute;inset:10px;border:1px solid rgba(199,169,104,.09);
+  border-radius:17px;pointer-events:none;
+}
+.hero{text-align:center;padding:58px 28px 48px}
+.eyebrow{font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold)}
+h1,h2{font-family:Cinzel,serif}
+h1{font-size:clamp(39px,8vw,76px);line-height:1;margin:16px 0 10px;text-shadow:0 5px 25px #000}
+.intro{max-width:650px;margin:0 auto;color:#c4c5b9;line-height:1.8}
+.ornament{color:var(--gold);font-size:22px;letter-spacing:.45em;margin:22px 0}
+.btn{
+  border:1px solid var(--gold);background:linear-gradient(135deg,var(--emerald),#0e6045);
+  color:white;border-radius:13px;padding:16px 27px;font-weight:700;cursor:pointer;
+  box-shadow:0 8px 30px rgba(22,132,94,.22);font-size:15px
+}
+.btn:hover{filter:brightness(1.12);transform:translateY(-1px)}
+.hidden{display:none!important}
+.quiz{padding:30px}
+.progress-shell{display:flex;justify-content:space-between;color:var(--muted);font-size:12px;margin-bottom:9px}
+.progress{height:6px;border-radius:99px;background:#18251f;overflow:hidden}
+.progress span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--emerald),var(--emerald2));transition:width .35s}
+.q{padding:45px 10px 18px;text-align:center}
+.qnum{color:var(--gold);font-size:11px;letter-spacing:.2em;text-transform:uppercase}
+.question{font:600 clamp(25px,5vw,38px)/1.35 Cinzel,serif;max-width:760px;margin:13px auto 31px}
+.answers{display:grid;gap:12px;max-width:760px;margin:auto}
+.answer{
+  border:1px solid rgba(199,169,104,.16);background:linear-gradient(100deg,rgba(42,24,17,.75),rgba(13,33,24,.75));
+  color:var(--cream);border-radius:14px;padding:17px 19px;text-align:left;cursor:pointer;
+  font:15px/1.5 Inter,sans-serif;transition:.2s;
+}
+.answer:hover{border-color:rgba(37,183,125,.75);background:linear-gradient(100deg,rgba(59,36,24,.9),rgba(17,67,48,.9));transform:translateY(-2px)}
+.answer:focus-visible{outline:2px solid var(--emerald2);outline-offset:3px}
+.result{text-align:center;padding:55px 28px}
+.result .crest{font-size:76px;filter:drop-shadow(0 10px 25px rgba(0,0,0,.6))}
+.result h2{font-size:clamp(38px,8vw,66px);margin:8px 0}
+.result .sub{color:var(--gold);font-family:Cinzel,serif;font-style:italic;font-size:18px}
+.divider{height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);max-width:500px;margin:28px auto}
+.result p{max-width:680px;margin:13px auto;color:#d0cec3;line-height:1.8}
+.traits{display:flex;flex-wrap:wrap;justify-content:center;gap:9px;margin:25px 0 30px}
+.traits span{padding:9px 14px;border:1px solid var(--line);border-radius:999px;color:#d8d4c7;background:rgba(7,17,13,.35)}
+.small{font-size:12px;color:var(--muted);margin-top:18px}
+@media(max-width:600px){.hero{padding:46px 20px 38px}.quiz{padding:22px 16px}.result{padding:45px 20px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="card">
+
+<section id="start" class="hero">
+  <div class="eyebrow">En resa genom det okända</div>
+  <h1>De Sex Rikena</h1>
+  <div class="ornament">✦ ❧ ✦</div>
+  <p class="intro">
+    Någonstans bortom de kända vägarna ligger sex riken. Deras namn har överlevt i gamla krönikor,
+    men deras sanna natur är dold för den som ännu inte har funnit sin väg.
+    <br><br>
+    Svara på frågorna och låt dina val visa vilket rike som väntar på dig.
+  </p>
+  <div style="margin-top:30px"><button class="btn" onclick="startQuiz()">Börja resan</button></div>
+  <div class="small">18 frågor · ett enda slutligt resultat</div>
+</section>
+
+<section id="quiz" class="quiz hidden">
+  <div class="progress-shell"><span id="counter"></span><span>Din resa fortsätter...</span></div>
+  <div class="progress"><span id="bar"></span></div>
+  <div class="q">
+    <div class="qnum">Ett val i taget</div>
+    <div id="question" class="question"></div>
+    <div id="answers" class="answers"></div>
+  </div>
+</section>
+
+<section id="result" class="result hidden">
+  <div id="crest" class="crest"></div>
+  <div class="eyebrow">Du har funnit ditt rike</div>
+  <h2 id="name"></h2>
+  <div id="sub" class="sub"></div>
+  <div class="divider"></div>
+  <p id="story"></p>
+  <p id="personality"></p>
+  <div id="traits" class="traits"></div>
+  <button class="btn" onclick="restart()">Börja om</button>
+</section>
+
+</div>
+</div>
+
+<script>
+const kingdoms={
+Valtheria:{name:"Valtheria",crest:"🐺",sub:"Vargarnas rike",motto:"Där en Vaelix ylar mot månen, står en vän ännu kvar.",story:"I världens nordligaste skogar ligger Valtheria, där mörka tallar reser sig över dimhöljda dalar. Gamla stigar slingrar sig mellan berg och sjöar, och i skuggorna sägs Vaelix vandra. Valtherias folk håller sina löften och lämnar ingen bakom sig.",personality:"Du är en person som andra kan luta sig mot. Lojalitet betyder mycket för dig, och när någon du bryr dig om behöver hjälp är det svårt för dig att bara gå förbi. Du är modig och beskyddande, men kan ibland ta på dig mer ansvar än du behöver.",traits:["Lojal","Modig","Beskyddande","Omtänksam"]},
+Rothengard:{name:"Rothengard",crest:"🐉",sub:"Drakarnas rike",motto:"Den som vågar resa sig kan förändra världen.",story:"Rothengard reser sig bland svarta berg och djupa dalar. Över klipporna flyger Xelthera, väktare från en tid då elden formade landet. Här värderas viljestyrka och ambition högt, och den som sätter ett mål förväntas våga kämpa för det.",personality:"Du har en stark inre drivkraft. När något känns viktigt vill du göra något åt det, och du har lätt att ta initiativ. Du låter dig inte gärna stoppas av motgångar. Din beslutsamhet kan samtidigt göra dig envis när du redan vet vilken väg du vill gå.",traits:["Ambitiös","Bestämd","Passionerad","Orädd"]},
+Edravorn:{name:"Edravorn",crest:"🦅",sub:"Himlens rike",motto:"Den som ser världen från ovan ser fler vägar.",story:"Högt över molnen ligger Edravorn, byggt kring vindpinade berg och gamla utkiksplatser. Kharox färdas över himlen och vakar över de vida landskapen. Edravorns folk söker kunskap och frihet och tror att ingen människa ska behöva tänka exakt som någon annan.",personality:"Du är nyfiken och vill förstå världen på ditt eget sätt. Nya idéer lockar dig och du trivs bäst när du får tänka fritt. Du kan ibland känna dig instängd av regler som inte verkar ha någon mening.",traits:["Nyfiken","Självständig","Kreativ","Reflekterande"]},
+Saelvyr:{name:"Saelvyr",crest:"🐍",sub:"Skuggornas rike",motto:"Den som tänker längst behöver inte tala högst.",story:"Mellan mörka skogar och gamla träskmarker ligger Saelvyr. Där är stigarna många och hemligheterna fler. Nythirak rör sig ljudlöst genom landskapet. Saelvyr lär att tålamod, information och rätt ögonblick kan väga tyngre än rå styrka.",personality:"Du observerar gärna innan du agerar. Du ser detaljer och tänker ofta ett par steg längre än andra. Du behöver inte vara den som hörs mest för att påverka en situation. Ibland kan du dock tänka så mycket på möjligheterna att beslutet får vänta.",traits:["Strategisk","Observant","Tålmodig","Skarpsinnig"]},
+Draustheim:{name:"Draustheim",crest:"🦌",sub:"Skogens rike",motto:"Styrka är att kunna skydda utan att behöva dominera.",story:"Draustheim är ett grönt rike av gamla skogar, floder och öppna dalar. Brayvorn vandrar mellan träden och sägs känna när något i naturen är ur balans. Här tror man att ett rike blir starkt när människorna tar hand om varandra.",personality:"Du lägger märke till hur andra mår och vill gärna skapa trygghet omkring dig. Du är tålmodig och hjälpsam och försöker hellre bygga broar än murar. Ibland kan du undvika konflikter längre än du egentligen borde.",traits:["Omtänksam","Lugn","Tålmodig","Samarbetsvillig"]},
+Khargrim:{name:"Khargrim",crest:"🐎",sub:"Vandrarnas rike",motto:"En stängd port är bara början på en ny väg.",story:"Khargrim har inga tydliga gränser. Dess folk färdas över slätter, berg och öknar, och Theryx följer dem på de långa vandringarna. Här är resan lika viktig som målet. Den som vågar lämna den kända vägen kan hitta platser ingen annan sett.",personality:"Du dras till det nya och okända. Du anpassar dig när planerna ändras och vågar prova även när du inte vet exakt hur det kommer att sluta. Du kan däremot bli rastlös när livet känns alltför förutsägbart.",traits:["Äventyrlig","Självständig","Uthållig","Anpassningsbar"]}
+};
+
+const questions=[
+["Du står vid en gammal vägkorsning. En väg är markerad på kartan, den andra saknar helt namn. Vilken väljer du?",["Den markerade vägen – jag vill veta att ingen lämnas åt sitt öde.","Den svåra vägen – den kan leda till något stort.","Jag studerar tecknen runt korsningen innan jag väljer.","Den okända vägen. Jag vill se vart den leder.","Jag undersöker kartan och försöker förstå varför den andra vägen saknas.","Jag väljer den väg som känns tryggast för gruppen."]],
+["En vän gör ett misstag som kan få konsekvenser. Vad gör du?",["Stannar kvar och hjälper personen att rätta till det.","Tar kontroll över situationen så att problemet inte växer.","Frågar vad som egentligen hände innan jag bestämmer mig.","Försöker hitta en oväntad lösning.","Ser till att personen inte behöver möta problemet ensam.","Följer med och löser problemen efter hand."]],
+["Vilken situation skulle göra dig mest rastlös?",["Att behöva lämna någon bakom mig.","Att aldrig få möjlighet att utvecklas.","Att aldrig få ställa frågor eller tänka själv.","Att aldrig få veta vad som egentligen pågår.","Att se människor omkring mig må dåligt.","Att varje dag ser exakt likadan ut."]],
+["Du får ansvar för en grupp inför en svår uppgift. Vad gör du först?",["Ser till att alla vet att de kan lita på varandra.","Sätter upp ett tydligt mål.","Frågar gruppen efter idéer och perspektiv.","Samlar information om riskerna.","Tar reda på vad varje person behöver.","Börjar och anpassar planen längs vägen."]],
+["Du upptäcker att en gammal regel verkar hindra människor i onödan. Vad gör du?",["Försöker ändra regeln utan att svika dem som litar på mig.","Utmana regeln öppet om den står i vägen för målet.","Frågar varför regeln finns och om den fortfarande behövs.","Letar efter en lucka i regeln.","Försöker hitta en lösning som blir rättvis för alla.","Tar en annan väg runt problemet."]],
+["Vad gör du när någon tänker helt annorlunda än du?",["Jag vill fortfarande kunna stå vid personens sida.","Jag försvarar min ståndpunkt men lyssnar på motargument.","Jag blir nyfiken på deras perspektiv.","Jag försöker förstå vad deras argument kan avslöja.","Jag söker en punkt där vi kan mötas.","Jag föreslår att vi provar båda idéerna."]],
+["Du hittar en låst dörr i en ruin. Vad tänker du?",["Vem kan ha varit här och behöver dörren öppnas?","Vad kan finnas bakom den och hur tar jag mig in?","Vilka symboler berättar vad dörren betyder?","Vem byggde den och varför gömde de den?","Finns det något här som borde skyddas?","Finns det kanske en annan ingång?"]],
+["Vilket misstag har du lättast att göra?",["Att ta ansvar för mycket.","Att försöka göra allt perfekt.","Att tänka för länge på alla möjligheter.","Att hålla saker för mig själv.","Att undvika en konflikt för länge.","Att gå vidare innan jag hunnit stanna upp."]],
+["Vad skulle du helst vilja att andra minns om dig?",["Att jag alltid stod kvar.","Att jag vågade göra skillnad.","Att jag såg världen på ett nytt sätt.","Att jag förstod sådant andra missade.","Att jag fick människor att känna sig trygga.","Att jag vågade upptäcka det okända."]],
+["Du får en hel dag utan några krav. Vad lockar mest?",["En dag med människor jag tycker om.","Att träna på något jag vill bli riktigt bra på.","Att läsa, skapa eller lära mig något nytt.","Att lösa ett mysterium eller undersöka något.","Att vara ute i naturen med andra.","Att ge mig av någonstans jag aldrig varit."]],
+["När en plan plötsligt misslyckas...",["Kontrollerar jag först att alla är okej.","Försöker jag snabbt ta tillbaka kontrollen.","Frågar jag vad vi kan lära oss av det.","Analyserar jag exakt var planen brast.","Hjälper jag gruppen att hitta lugnet igen.","Provar jag en helt annan väg."]],
+["Vilken egenskap hos en ledare respekterar du mest?",["Att stå upp för sitt folk.","Att våga fatta svåra beslut.","Att ge människor frihet att tänka.","Att se flera steg framåt.","Att lyssna och ta hand om gruppen.","Att våga gå först mot det okända."]],
+["Du hör ett ljud från skogen om natten. Vad gör du?",["Ser till att de jag är med är tillsammans.","Tar reda på vad det är.","Försöker förstå ljudets ursprung.","Väntar och observerar innan jag avslöjar var jag är.","Stannar och lyssnar efter om någon behöver hjälp.","Går närmare för att undersöka."]],
+["Vilket pris skulle du helst vinna?",["Ett tecken på evig vänskap.","En medalj för en stor bedrift.","En bok med bortglömd kunskap.","En nyckel till en hemlig plats.","Ett frö från en sällsynt växt.","En kompass som visar vägen till okända platser."]],
+["Vad är viktigast när du måste fatta ett svårt beslut?",["Vem jag kan svika eller hjälpa.","Vad som krävs för att nå målet.","Vad jag själv tror är rätt.","Vilka konsekvenser som kan döljas.","Hur beslutet påverkar andra.","Vilken möjlighet beslutet öppnar."]],
+["Vilken miljö skulle du helst utforska?",["En gammal skog där en grupp väntar på hjälp.","En bergsfästning full av gamla utmaningar.","En plats ovanför molnen.","En underjordisk stad med dolda gångar.","En uråldrig skog med levande floder.","En öde slätt bortom alla kartor."]],
+["En person du litar på ber dig hålla en hemlighet. Vad gör du?",["Jag håller löftet.","Jag gör det som skyddar personen och gruppen.","Jag vill veta om hemligheten hindrar någon från att vara fri.","Jag funderar på varför personen behöver hemligheten.","Jag tänker på vilka som kan påverkas innan jag agerar.","Jag håller den tills situationen förändras."]],
+["Vilket ord känns mest som en styrka för dig?",["Trofasthet","Drivkraft","Frihet","Strategi","Gemenskap","Upptäckarglädje"]]
+];
+
+const keys=["Valtheria","Rothengard","Edravorn","Saelvyr","Draustheim","Khargrim"];
+let i=0,scores={};
+
+function startQuiz(){
+ i=0;scores={};keys.forEach(k=>scores[k]=0);
+ document.getElementById("start").classList.add("hidden");
+ document.getElementById("result").classList.add("hidden");
+ document.getElementById("quiz").classList.remove("hidden");
+ render();
+}
+function render(){
+ const [q,opts]=questions[i];
+ document.getElementById("counter").textContent=`${i+1} / ${questions.length}`;
+ document.getElementById("bar").style.width=`${(i/questions.length)*100}%`;
+ document.getElementById("question").textContent=q;
+ const box=document.getElementById("answers");box.innerHTML="";
+ opts.forEach((txt,n)=>{
+   const b=document.createElement("button");b.className="answer";b.textContent=txt;
+   b.onclick=()=>pick(keys[n]);box.appendChild(b);
+ });
+}
+function pick(k){
+ scores[k]++;i++;
+ if(i<questions.length)render();else finish();
+}
+function finish(){
+ let max=Math.max(...keys.map(k=>scores[k]));
+ const tied=keys.filter(k=>scores[k]===max);
+ // Vid lika poäng avgör det senaste svaret bland de rikena som ligger lika.
+ let winner=tied[0];
+ for(let j=questions.length-1;j>=0;j--){
+   const idx=questions[j][1].findIndex((_,n)=>tied.includes(keys[n]));
+   if(idx>=0){winner=keys[idx];break;}
+ }
+ const k=kingdoms[winner];
+ document.getElementById("quiz").classList.add("hidden");
+ document.getElementById("result").classList.remove("hidden");
+ document.getElementById("crest").textContent=k.crest;
+ document.getElementById("name").textContent=k.name;
+ document.getElementById("sub").textContent=k.sub;
+ document.getElementById("story").textContent=k.story;
+ document.getElementById("personality").textContent=k.personality;
+ document.getElementById("traits").innerHTML=k.traits.map(x=>`<span>${x}</span>`).join("");
+ window.scrollTo({top:0,behavior:"smooth"});
+}
+function restart(){startQuiz();window.scrollTo({top:0,behavior:"smooth"});}
+</script>
+</body>
+</html>
